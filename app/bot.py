@@ -74,7 +74,6 @@ def bot_logging(message):
         f" {message.from_user.id},"
         f" {message.from_user.full_name}"
     )
-    print("lalala")
 
 
 @bot.message_handler(commands=['test'])
