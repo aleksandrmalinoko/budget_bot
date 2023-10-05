@@ -8,21 +8,21 @@ import argparse
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton
 
 
-parser = argparse.ArgumentParser(description="You can run this script locally, using flag --devmode or -d",
+parser = argparse.ArgumentParser(description="You can run this script locally, using flag --alexmode or -d",
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("-d", "--devmode", action="store_true", help="Developer mode")
-parser.add_argument("-m", "--macmode", action="store_true", help="Developer mode macos")
+parser.add_argument("-d", "--alexmode", action="store_true", help="Developer mode")
+parser.add_argument("-m", "--karinamode", action="store_true", help="Developer mode macos")
 args = parser.parse_args()
 config = vars(args)
 
 
-devmode = config['devmode']
-macmode = config['macmode']
-if devmode:
+alexmode = config['alexmode']
+karinamode = config['karinamode']
+if alexmode:
     logging.basicConfig(filename="..\\logs\\budget_bot.log",
                         level=logging.INFO)
-elif macmode:
-    logging.basicConfig(filename="../logs/budget_bot.log",
+elif karinamode:
+    logging.basicConfig(filename="/Users/karina/PycharmProjects/budget_bot/logs/budget_bot.log",
                         level=logging.INFO)
 else:
     logging.basicConfig(filename="/budget_bot/logs/budget_bot.log", level=logging.INFO)
@@ -33,27 +33,21 @@ using_bot_counter = prometheus_client.Counter(
 )
 
 parser = ConfigParser()
-if devmode:
-    parser.read(Path('C:\\Users\\amalinko\\PycharmProjects\\budget_bot\\config\\init.ini').absolute())
-elif macmode:
-    parser.read(Path('/Users/aleksandrmalinko/PycharmProjects/budget_bot/config/init.ini').absolute())
+if alexmode:
+    parser.read(Path('..\\config\\init.ini').absolute())
+elif karinamode:
+    parser.read(Path('/Users/karina/PycharmProjects/budget_bot/config/init.ini').absolute())
 else:
     parser.read(Path('/budget_bot/config/init.ini').absolute())
 telegram_api_token = parser['telegram']['telegram_api_token']
 bot = telebot.TeleBot(token=telegram_api_token)
 
-if devmode:
-    faq_path: Path = Path(f"C:\\Users\\amalinko\\PycharmProjects\\budget_bot\\config\\faq.yaml").absolute()
-elif macmode:
-    faq_path: Path = Path(f"/Users/aleksandrmalinko/PycharmProjects/budget_bot/config/faq.yaml").absolute()
-else:
-    faq_path: Path = Path(f"/budget_bot/config/faq.yaml").absolute()
 
 
-if devmode:
+if alexmode:
     role_model_path: Path = Path(f"C:\\Users\\amalinko\\PycharmProjects\\budget_bot\\config\\role_model.txt").absolute()
-elif macmode:
-    role_model_path: Path = Path(f"/Users/aleksandrmalinko/PycharmProjects/budget_bot/config/role_model.txt").absolute()
+elif karinamode:
+    role_model_path: Path = Path(f"/Users/karina/PycharmProjects/budget_bot/config/role_model.txt").absolute()
 else:
     role_model_path: Path = Path(f"/budget_bot/config/role_model.txt").absolute()
 
@@ -97,3 +91,6 @@ def add_question_message(message):
         "Тест",
     )
 
+if __name__ == '__main__':
+    prometheus_client.start_http_server(9300)
+    bot.infinity_polling()
