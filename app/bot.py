@@ -19,7 +19,7 @@ config = vars(args)
 alexmode = config['alexmode']
 karinamode = config['karinamode']
 if alexmode:
-    logging.basicConfig(filename="..\\logs\\budget_bot.log",
+    logging.basicConfig(filename="/Users/aleksandrmalinko/PycharmProjects/budget_bot/logs/budget_bot.log",
                         level=logging.INFO)
 elif karinamode:
     logging.basicConfig(filename="/Users/karina/PycharmProjects/budget_bot/logs/budget_bot.log",
@@ -34,7 +34,7 @@ using_bot_counter = prometheus_client.Counter(
 
 parser = ConfigParser()
 if alexmode:
-    parser.read(Path('..\\config\\init.ini').absolute())
+    parser.read(Path('/Users/aleksandrmalinko/PycharmProjects/budget_bot/config/init.ini').absolute())
 elif karinamode:
     parser.read(Path('/Users/karina/PycharmProjects/budget_bot/config/init.ini').absolute())
 else:
@@ -45,7 +45,7 @@ bot = telebot.TeleBot(token=telegram_api_token)
 
 
 if alexmode:
-    role_model_path: Path = Path(f"C:\\Users\\amalinko\\PycharmProjects\\budget_bot\\config\\role_model.txt").absolute()
+    role_model_path: Path = Path(f"/Users/aleksandrmalinko/PycharmProjects/budget_bot/config/role_model.txt").absolute()
 elif karinamode:
     role_model_path: Path = Path(f"/Users/karina/PycharmProjects/budget_bot/config/role_model.txt").absolute()
 else:
@@ -90,6 +90,7 @@ def add_question_message(message):
         message.chat.id,
         "Тест",
     )
+
 
 if __name__ == '__main__':
     prometheus_client.start_http_server(9300)
